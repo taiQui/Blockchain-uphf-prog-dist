@@ -11,11 +11,11 @@ Transaction::~Transaction(){
 }
 //SETTER
 void Transaction::settype(int type){
-  this._type = type;
+  this->_type = type;
 }
 //GETTER
 int Transaction::gettype(){
-  return this._type;
+  return this->_type;
 }
 //SETTER
 void Transaction::setid_exchange(string airportSender,string airportReceiver){
@@ -32,7 +32,7 @@ void Transaction::setluggage(string bagage,string weight){
   this._luggage.push_back(weight);
 }
 string* Transaction::getluggage(){
-  
+
 }
 //SETTER
 void Transaction::setflight_number(string number){
