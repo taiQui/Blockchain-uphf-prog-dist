@@ -4,5 +4,5 @@
 using namespace std;
 
 int main(){
-  cout << "Coucou"
+  cout << "coucou" << endl << "Adrien tu fais chier" << endl;
 }
