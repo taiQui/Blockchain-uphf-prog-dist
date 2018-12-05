@@ -7,7 +7,7 @@ Implementation d'une blockchain pour le cours de programmation distribué de pre
 
 **commande pour push son travail sur github**
 
-* git pull        <=== A toujours faire avant de modifié un fichier 
+* git pull        <=== A toujours faire avant de modifié un fichier ou faire quelque chose
 * git add { nom_fichier } ou git add -A      pour tous les fichiers present
 * git commit -m "commentaire sur ton ajout "      <=== obligé
 * git push
