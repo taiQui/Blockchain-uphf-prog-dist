@@ -22,12 +22,13 @@ private:
 public:
    Transaction(); //Constructor
    ~Transaction(); //Destructor
-   
+
    void settype(int); //Setter for type
    int gettype(); //Getter for type
 
    void setid_exchange(string, string); //Setter for id_exchange
-   string* getid_exchange(); //Getter for id_exchange
+   string getid_exchangeSender(); //Getter for id_exchange
+   string getid_exchangeReceiver(); //Getter for id_exchange
 
    void setluggage(string,string); //Setter for luggage
    string* getluggage(int); //Getter for luggage
@@ -35,7 +36,13 @@ public:
    void setflight_number(string); //Setter for flight_number
    string getflight_number(); //Getter for flight_number
 
-   bool verification();
+   void getAllLuggage(); // Get all luggage stocked
+
+   bool verification(); //verification for id_exchange
+
+   void removeLuggageWithName(string); // remove luggage with  name
+
+   void removeLuggageWithId(string);  // remove luggage with client id
 
 };
 
