@@ -20,6 +20,7 @@ class Block {
   public:
     //Constructor
     Block();
+    // Block(Block);
     //Destrucor
     ~Block();
 
@@ -29,6 +30,7 @@ class Block {
     int getLength();
     vector<Transaction> getTransactionByType(int);
     Transaction getTransactionByIndex(unsigned int);
+    vector<Transaction> getAllList();
     //SETTER
     void setHash(string);
     void setInferiorBlock(Block*  );

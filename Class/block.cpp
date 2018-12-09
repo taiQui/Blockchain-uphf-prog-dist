@@ -3,6 +3,13 @@
 Block::Block(){
 
 }
+// 
+// Block::Block(Block bl){
+//   this->_hash = bl.getHash();
+//   this->_inferiorBlock = &(bl.getInferiorBlock());
+//   this->_length = bl.getLength();
+//   this->_transactionList = bl.
+// }
 
 Block::~Block(){
 
@@ -27,6 +34,10 @@ void Block::setHash(string hash){
 
 void Block::setInferiorBlock(Block* block){
   this->_inferiorBlock = block;
+}
+
+vector<Transaction> Block::getAllList(){
+  return this->_transactionList;
 }
 
 vector<Transaction> Block::getTransactionByType(int type){
