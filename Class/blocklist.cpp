@@ -54,7 +54,7 @@ int BlockList::removeBlock(string hash){
   }
   if(aux.getHash() == hash){
     for(int j = 0 ; j < i ; j++){
-      Block* supp = new Block(this->_currentBlock->getInferiorBlock()->getHash(),this->_currentBlock->getInferiorBlock(),this->_currentBlock->getInferiorBlock()->getLength(),this->_currentBlock->getInferiorBlock()->getAllList());
+      Block* supp = new Block(this->_currentBlock->getInferiorBlock()->getHash(),this->_currentBlock->getInferiorBlock()->getInferiorBlock(),this->_currentBlock->getInferiorBlock()->getLength(),this->_currentBlock->getInferiorBlock()->getAllList());
       delete this->_currentBlock;
       this->_currentBlock = supp;
     }
