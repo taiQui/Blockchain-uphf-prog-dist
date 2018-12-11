@@ -14,11 +14,12 @@ public:
   BlockList();
   ~BlockList();
 
-  Block getInferiorBlock();
   Block getBlock();
   Block getBlockWithIndexDesc(int);
-  void setBlock(Block);
+  void setFirstBlock(Block*);
   bool checkIndex(int);
+  void addBlock(Block*);
+  int removeBlock(string);
 };
 
 

@@ -3,13 +3,13 @@
 Block::Block(){
 
 }
-// 
-// Block::Block(Block bl){
-//   this->_hash = bl.getHash();
-//   this->_inferiorBlock = &(bl.getInferiorBlock());
-//   this->_length = bl.getLength();
-//   this->_transactionList = bl.
-// }
+
+Block::Block(string hash,Block* inf, int length, vector<Transaction> tr){
+  this->_hash = hash;
+  this->_inferiorBlock = inf;
+  this->_length = length;
+  this->_transactionList = tr;
+}
 
 Block::~Block(){
 
@@ -20,8 +20,8 @@ string Block::getHash(){
 }
 
 // Here '_inferiorBlock' is a pointer so we need to dereference it to access his value
-Block Block::getInferiorBlock(){
-  return *this->_inferiorBlock;
+Block* Block::getInferiorBlock(){
+  return this->_inferiorBlock;
 }
 
 int Block::getLength(){
@@ -38,6 +38,10 @@ void Block::setInferiorBlock(Block* block){
 
 vector<Transaction> Block::getAllList(){
   return this->_transactionList;
+}
+
+void Block::setAllList(vector<Transaction> v){
+    this->_transactionList = v;
 }
 
 vector<Transaction> Block::getTransactionByType(int type){

@@ -20,17 +20,19 @@ class Block {
   public:
     //Constructor
     Block();
+    Block(string,Block*,int,vector<Transaction>);
     // Block(Block);
     //Destrucor
     ~Block();
 
     //GETTER
     string getHash();
-    Block getInferiorBlock();
+    Block* getInferiorBlock();
     int getLength();
     vector<Transaction> getTransactionByType(int);
     Transaction getTransactionByIndex(unsigned int);
     vector<Transaction> getAllList();
+    void setAllList(vector<Transaction>);
     //SETTER
     void setHash(string);
     void setInferiorBlock(Block*  );
