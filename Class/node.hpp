@@ -3,15 +3,16 @@
 
 #include <iostream>
 #include <string>
-
+#include <ctime>
+#include <pthread.h>
 using namespace std;
 
 class Node {
 
 private:
   string _id;
-  //add timer
-
+  clock_t *timer;
+  pthread_t idth;
 public:
   Node();
   Node(string);
@@ -20,7 +21,11 @@ public:
   string getid(); //getter
   void setid(string);
   float getCalculatedValue();
+  double getTime();
+
+  void *run();
 
 };
+
 
 #endif

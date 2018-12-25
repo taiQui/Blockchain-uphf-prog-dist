@@ -17,3 +17,5 @@ Implementation d'une blockchain pour le cours de programmation distribué de pre
 
 ## TO DO LIST
 * j'ai ajouté la classe **block**,par contre je me demande si on devrait pas ajouté un ID a une transaction du genre un string generé aleatoirement sur 20 caractere pour pas faire de collision mais pour pouvoir le supprimé si besoin par rapport a un block parce que la c'est plus ou moins impossible de le trouvé ^^
+
+* Add Timer getter/setter and in all function 

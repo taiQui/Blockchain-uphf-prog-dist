@@ -1,6 +1,12 @@
 #include "block.hpp"
 
+void *ChronoBlock(void* timer){
+  timer = (clock_t*)clock();
+
+}
+
 Block::Block(){
+  int error = pthread_create(&this->idth, NULL, ChronoBlock, (void*)&(this)->_timer);
 
 }
 
@@ -9,9 +15,12 @@ Block::Block(string hash,Block* inf, int length, vector<Transaction> tr){
   this->_inferiorBlock = inf;
   this->_length = length;
   this->_transactionList = tr;
+  pthread_create(&this->idth, NULL, ChronoBlock, (void*)&(this)->_timer);
+
 }
 
 Block::~Block(){
+  pthread_exit(&this->idth);
 
 }
 
@@ -64,4 +73,9 @@ Transaction Block::getTransactionByIndex(unsigned int index){
 
 void Block::addTransaction(Transaction transac){
   this->_transactionList.push_back(transac);
+}
+
+double Block::getTime(){
+  double duration = (clock() - *(this)->_timer ) / (double) CLOCKS_PER_SEC;
+  return duration;
 }

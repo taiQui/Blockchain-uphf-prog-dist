@@ -9,7 +9,7 @@
 
 using namespace std; //If there is a problem during the compilation, try without the namespace
 
-class Transaction { //Abstract class
+class Transaction {
   //A transaction has this form: [type_of_transaction][id_1, id_2][Luggage and id_client][flight_number]
   //Attributes
 private:
@@ -30,7 +30,7 @@ public:
    string getid_exchangeSender(); //Getter for id_exchange
    string getid_exchangeReceiver(); //Getter for id_exchange
 
-   void setluggage(string,string); //Setter for luggage
+   void setluggage(string,string,string); //Setter for luggage
    string* getluggage(int); //Getter for luggage
 
    void setflight_number(string); //Setter for flight_number

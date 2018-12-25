@@ -30,9 +30,10 @@ string Transaction::getid_exchangeReceiver(){
   return this->_id_exchange[1];
 }
 //SETTER
-void Transaction::setluggage(string bagage,string weight){
-  this->_luggage.push_back(bagage);
+void Transaction::setluggage(string name,string weight,string id){
+  this->_luggage.push_back(name);
   this->_luggage.push_back(weight);
+  this->_luggage.push_back(id);
 }
 
 //Create String's pointer to return all bagage information
@@ -86,6 +87,8 @@ void Transaction::removeLuggageWithName(string name){
     // vector.at()   <--- need unsigned int and work same as operator[]
     if(this->_luggage.at(i) == name){
       // vector.erase need iterator : vector.begin() : iterator begin and vector.end() : end iterator
+      this->_luggage.erase(this->_luggage.begin()+(i+2));
+      this->_luggage.erase(this->_luggage.begin()+(i+1));
       this->_luggage.erase(this->_luggage.begin()+i);
       continuer = false;
     } else {
@@ -101,9 +104,9 @@ void Transaction::removeLuggageWithId(string id){
   bool continuer = true;
   while (continuer && i < this->_luggage.size()){
     if(this->_luggage.at(i+2) == id){
-      this->_luggage.erase(this->_luggage.begin()+i);
-      this->_luggage.erase(this->_luggage.begin()+(i+1));
       this->_luggage.erase(this->_luggage.begin()+(i+2));
+      this->_luggage.erase(this->_luggage.begin()+(i+1));
+      this->_luggage.erase(this->_luggage.begin()+i);
       continuer = false;
     } else {
       i+=3;

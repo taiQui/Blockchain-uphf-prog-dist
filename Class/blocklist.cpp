@@ -2,7 +2,7 @@
 
 
 BlockList::BlockList(){
-
+  this->_currentBlock = NULL;
 }
 
 BlockList::~BlockList(){
@@ -21,16 +21,6 @@ void BlockList::setFirstBlock(Block* block){
   this->_currentBlock = block;
 }
 
-Block* BlockList::getBlockWithIndexDesc(int index){
-  // if(checkIndex(index))
-  //   return NULL;
-  // Block aux;
-  // for( int i = 0 ; i < index ; i++){
-  //    aux = new Block(this->_currentBlock->getInferiorBlock()->getHash(),this->_currentBlock->getInferiorBlock()->getInferiorBlock(),this->_currentBlock->getInferiorBlock()->getLength(),this->_currentBlock->getInferiorBlock()->getAllList());
-  //   aux = *(aux.getInferiorBlock());
-  // }
-  // return(aux);
-}
 
 bool BlockList::checkIndex(int index){
   bool continuer = true;

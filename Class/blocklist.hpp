@@ -15,7 +15,6 @@ public:
   ~BlockList();
 
   Block getBlock();
-  Block* getBlockWithIndexDesc(int);
   void setFirstBlock(Block*);
   bool checkIndex(int);
   void addBlock(Block*);

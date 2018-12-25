@@ -3,6 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <stdlib.h>
+#include <unistd.h>
+#include <ctime>
+#include <pthread.h>
 
 using namespace std;
 
@@ -13,8 +18,10 @@ class Block {
     string _hash;
     //pointer on previous block
     Block* _inferiorBlock;
-    // add timer
+    clock_t* _timer;
+    pthread_t idth;
     int _length;
+    int _threadid;
     vector<Transaction> _transactionList;
 
   public:
@@ -43,7 +50,9 @@ class Block {
     void removeTransaction(Transaction);
     //control length
     bool checkIndex(unsigned int);
-
+    double getTime();
 };
+
+
 
 #endif
