@@ -26,6 +26,18 @@ void Node::setid(string id){
   this->_id = id;
 }
 
+int Node::getSocketByIndex(int index){
+  return this->_socket.at(index);
+}
+
+vector<int> Node::getSocket(){
+  return this->_socket;
+}
+
+vector<pthread_t> Node::getIdThread(){
+  return this->_idt;
+}
+
 float Node::getCalculatedValue(){
   //for avoid error need to change when Implementation is done
   return *(new float(4.5));
@@ -33,6 +45,8 @@ float Node::getCalculatedValue(){
 
 double Node::getTime(){
   double duration = (clock() - *(this)->timer ) / (double) CLOCKS_PER_SEC;
+  cout<<"TIIIIIIIIIIIIIIIIIME"<<endl;
+  cout<<"GET Time : "<<duration<<endl;
   return duration;
 }
 

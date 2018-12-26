@@ -36,9 +36,17 @@ void Blockchain::setlength(int size){
   this->_length = size;
 }
 
-void* Blockchain::run(){
-  long int decompte = 0;
-  while(1){
-    //listen
-  }
+int Blockchain::getSocketByIndex(int index){
+  return this->_socket.at(index);
 }
+
+vector<int> Blockchain::getSocket(){
+  return this->_socket;
+}
+
+vector<pthread_t> Blockchain::getIdThread(){
+  return this->_id;
+}
+// void* Blockchain::run(void* port){
+//
+// }

@@ -6,15 +6,21 @@
 #include "block.hpp"
 #include <ctime>
 #include "blocklist.hpp"
+#include "../MAIN/headers.hpp"
 class Blockchain {
 
 private:
   BlockList* _bl;
 
+  vector<int>_socket;
+  vector<pthread_t> _id;
   int _length;
 public:
   int getlength();
   void setlength(int);
+  int getSocketByIndex(int);
+  vector<int> getSocket();
+  vector<pthread_t> getIdThread();
 
   Blockchain();
   ~Blockchain();
@@ -24,7 +30,6 @@ public:
   Block readBlock(int);
   bool checkIndex(int);
 
-  void* run();
 
 };
 
