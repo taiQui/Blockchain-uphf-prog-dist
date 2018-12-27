@@ -101,20 +101,29 @@ void* runNode1(void* vide){
       sleep(1);
     while(1){
       int new_sock;
+      cout<<"--------------------------\n";
+
       if ((new_sock = accept(Sock_server, (struct sockaddr *)&address,
                         (socklen_t*)&addrlen))<0)
      {
          perror("accept");
          exit(EXIT_FAILURE);
+     } else {
+       cout<<"TEST APRES ACCEPT"<<endl;
+       airport1->getSocket().push_back(new_sock);
+       cout<<"RUNNODE TEST 1"<<endl;
+       pthread_t threadid;
+       cout<<"RUNNODE TEST 2"<<endl;
+       airport1->getIdThread().push_back(threadid);
+       cout<<"RUNNODE TEST 3"<<endl;
+       struct args_nd arguments;
+       cout<<"RUNNING TEST 4"<<endl;
+       arguments.sock = new_sock;
+       arguments.choix = 1;
+       cout<<"TEEEEST : "<<airport1->getIdThread().size()<<endl;
+       pthread_create(&airport1->getIdThread().at((airport1->getIdThread().size())-1),NULL,runListen,(void*)&arguments);
+       cout<<"RUNNING TEST 5"<<endl;
      }
-     cout<<"TEST APRES ACCEPT"<<endl;
-      airport1->getSocket().push_back(new_sock);
-      pthread_t threadid;
-      airport1->getIdThread().push_back(threadid);
-      struct args_nd arguments;
-      arguments.sock = new_sock;
-      arguments.choix = 1;
-      pthread_create(&airport1->getIdThread().at(airport1->getIdThread().size()-1),NULL,runListen,(void*)&arguments);
     }
   }
 }
@@ -299,6 +308,7 @@ void* runListen(void* args){
   }
   int tm = 0;
   int ds = 5;
+  clock_t start = clock();
   while(true){
     if(aux2 == NULL){
       int randomnumber = (rand()%(10000-0))+0;
@@ -314,17 +324,18 @@ void* runListen(void* args){
       }
       cout<<"RUN LISTEN : fin"<<endl;
     } else {
-
-      clock_t start = clock();
-
+      cout<<"RUNLISTEN TEST 1"<<endl;
+      cout<<"RUNLISTEN TEST 2"<<endl;
       if(((clock() - start ) / (double) CLOCKS_PER_SEC) > ds ) {
+        cout<<"RUNLISTEN TEST 3"<<endl;
         ds+=5;
         tm+=5;
         int randomnumber = (rand()%(10000-0))+0;
         const char* msg = to_string(randomnumber).c_str();
         send(test.sock,msg,sizeof(msg),0);
+        start = clock();
       }
-
+      cout<<"RUNLISTEN TEST 4"<<endl;
 
 
     }
