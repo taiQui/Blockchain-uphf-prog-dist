@@ -20,7 +20,7 @@ private:
 
   //Methods
 public:
-   Transaction(); //Constructor
+   Transaction(int type, string id_exchange[2], vector<string> luggage, string flight_number); //Constructor
    ~Transaction(); //Destructor
 
    void settype(int); //Setter for type

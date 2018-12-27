@@ -4,8 +4,11 @@ void* ChronoNode(void* timer){
   timer = (clock_t*)clock();
 }
 
-Node::Node(){
+Node::Node(string id,vector<int> socket, vector<pthread_t> idt){
   pthread_create(&this->idth,NULL,ChronoNode,(void*)&(this)->timer);
+  this->_id = id;
+  this->_idt = idt;
+  this->_socket = socket;
 }
 
 Node::Node(string id){

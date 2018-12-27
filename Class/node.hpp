@@ -20,7 +20,7 @@ private:
   vector<int> _socket;
   vector<pthread_t> _idt;
 public:
-  Node();
+  Node(string id,vector<int> socket, vector<pthread_t> idt);
   Node(string);
   ~Node();
 

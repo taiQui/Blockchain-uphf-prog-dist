@@ -1,7 +1,14 @@
 #include "blockchain.hpp"
 
-Blockchain::Blockchain(){
+Blockchain::Blockchain(){ 
+
+}
+
+Blockchain::Blockchain(vector<int> socket, vector<pthread_t> id, int length){
   this->_bl = new BlockList();
+  this->_socket = socket;
+  this->_id = id;
+  this->_length = length;
 }
 
 Blockchain::~Blockchain(){

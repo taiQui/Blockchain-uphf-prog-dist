@@ -2,8 +2,11 @@
 
 
 //Constructor
-Transaction::Transaction(){
-
+Transaction::Transaction(int type, string id_exchange[2], vector<string> luggage, string flight_number){
+this->_type = type;
+for(int i(0); i<2; i++) this->_id_exchange[i] = id_exchange[i];
+this->_luggage = luggage;
+this->_flight_number = flight_number;
 }
 //Destructor
 Transaction::~Transaction(){

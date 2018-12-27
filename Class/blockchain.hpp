@@ -23,6 +23,7 @@ public:
   vector<pthread_t> getIdThread();
 
   Blockchain();
+  Blockchain(vector<int> socket, vector<pthread_t> id, int length);
   ~Blockchain();
 
   void addBlock(Block*);
