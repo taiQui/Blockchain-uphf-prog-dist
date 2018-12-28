@@ -503,18 +503,18 @@ void* runBlockchain(void* vide){
       } else {
         cout<<"BC : FAIL"<<endl;
       }
-      // int a3 = connecte(AIRPORT2);
-      // cout <<"4  : "<< a3 << endl;
-      // if(a3 > 0 ){
-      //   pthread_t id;
-      //   pthread_create(&id,NULL,runClient,(void*)&a3);
-      // }
-      // int blockc = connecte(AIRPORT3);
-      // cout << "4  : "<<blockc << endl;
-      // if(blockc > 0){
-      //   pthread_t id;
-      //   pthread_create(&id,NULL,runClient,(void*)&blockc);
-      // }
+      int a3 = connecte(AIRPORT2);
+      cout <<"4  : "<< a3 << endl;
+      if(a3 > 0 ){
+        pthread_t id;
+        pthread_create(&id,NULL,runClient,(void*)&a3);
+      }
+      int blockc = connecte(AIRPORT3);
+      cout << "4  : "<<blockc << endl;
+      if(blockc > 0){
+        pthread_t id;
+        pthread_create(&id,NULL,runClient,(void*)&blockc);
+      }
       cout<<"END CONNECT 4 "<<endl;
       sleep(1);
 
