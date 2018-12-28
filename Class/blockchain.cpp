@@ -1,6 +1,6 @@
 #include "blockchain.hpp"
 
-Blockchain::Blockchain(){ 
+Blockchain::Blockchain(){
 
 }
 
@@ -21,6 +21,30 @@ void Blockchain::addBlock(Block* block){
 
 void Blockchain::removeBlock(string hash){
   this->_bl->removeBlock(hash);
+}
+
+int Blockchain::getSizeThread(){
+  return this->_id.size();
+}
+
+int Blockchain::getSizeSocket(){
+  return this->_socket.size();
+}
+
+int Blockchain::getSocketAt(int index){
+  return this->_socket.at(index);
+}
+
+pthread_t* Blockchain::getThreadAt(int index){
+  return &(this->_id.at(index));
+}
+
+void Blockchain::addingThread(pthread_t id){
+  this->_id.push_back(id);
+}
+
+void Blockchain::addingSocket(int sock){
+  this->_socket.push_back(sock);
 }
 
 Block Blockchain::readBlock(int index){

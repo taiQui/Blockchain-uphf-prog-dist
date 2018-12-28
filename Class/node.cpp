@@ -1,24 +1,53 @@
 #include "node.hpp"
 
-void* ChronoNode(void* timer){
-  timer = (clock_t*)clock();
-}
 
 Node::Node(string id,vector<int> socket, vector<pthread_t> idt){
-  pthread_create(&this->idth,NULL,ChronoNode,(void*)&(this)->timer);
   this->_id = id;
   this->_idt = idt;
   this->_socket = socket;
+  this->timer = clock();
+}
+
+Node::Node(const Node& node){
+  this->_id = node._id;
+  this->timer = node.timer;
+  this->idth = node.idth;
+  this->_socket = node._socket;
+  this->_idt = node._idt;
 }
 
 Node::Node(string id){
   this->_id = id;
-  pthread_create(&this->idth,NULL,ChronoNode,(void*)&(this)->timer);
+  this->timer = clock();
 
 }
 
 Node::~Node(){
 
+}
+
+int Node::getSizeThread(){
+  return this->_idt.size();
+}
+
+pthread_t* Node::getThreadAt(int index){
+  return &(this->_idt.at(index));
+}
+
+int Node::getSizeSocket(){
+  return this->_socket.size();
+}
+
+void Node::addingSocket(int sock){
+  this->_socket.push_back(sock);
+}
+
+int Node::getSocketAt(int index){
+  return this->_socket.at(index);
+}
+
+void Node::addingThread(pthread_t id){
+  this->_idt.push_back(id);
 }
 
 string Node::getid(){
@@ -47,9 +76,9 @@ float Node::getCalculatedValue(){
 }
 
 double Node::getTime(){
-  double duration = (clock() - *(this)->timer ) / (double) CLOCKS_PER_SEC;
-  cout<<"TIIIIIIIIIIIIIIIIIME"<<endl;
-  cout<<"GET Time : "<<duration<<endl;
+  double duration = (clock() - (this->timer ) / (double) CLOCKS_PER_SEC);
+  // cout<<"TIIIIIIIIIIIIIIIIIME"<<endl;
+  // cout<<"GET Time : "<<duration<<endl;
   return duration;
 }
 

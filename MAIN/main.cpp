@@ -4,6 +4,7 @@
 struct args_nd {
   int sock;
   int choix;
+  int whoami;
 };
 //Creating first airport
 Node* airport1 = new Node("A-blagnac");
@@ -18,16 +19,16 @@ int main(){
 
   pthread_t tabID[4];
   pthread_create(&tabID[0],NULL,runNode1,NULL);
-  // pthread_create(&tabID[1],NULL,runNode2,(void*)&airport2);
-  // pthread_create(&tabID[2],NULL,runNode3,(void*)&airport3);
+  pthread_create(&tabID[1],NULL,runNode2,(void*)&airport2);
+  pthread_create(&tabID[2],NULL,runNode3,(void*)&airport3);
   pthread_create(&tabID[3],NULL,runBlockchain,NULL);
   pthread_join(tabID[0],NULL);
-  // pthread_join(tabID[1],NULL);
-  // pthread_join(tabID[2],NULL);
+  pthread_join(tabID[1],NULL);
+  pthread_join(tabID[2],NULL);
   pthread_join(tabID[3],NULL);
   pthread_exit(&tabID[0]);
-  // pthread_exit(&tabID[1]);
-  // pthread_exit(&tabID[2]);
+  pthread_exit(&tabID[1]);
+  pthread_exit(&tabID[2]);
   pthread_exit(&tabID[3]);
 }
 
@@ -69,30 +70,33 @@ void* runNode1(void* vide){
           exit(EXIT_FAILURE);
       }
       cout << "TEST NODE 1"<<endl;
-      // int a2 = connecte(AIRPORT2);
-      // cout<<"1 : "<<a2<<endl;
-      // if(a2 > 0) {
-      // struct args_nd arguments1;
-      // arguments.sock = a2;
-      // arguments.bc = &(*(Node*)bc);
-      //   pthread_t id;
-      //   pthread_create(&id,NULL,runListen,(void*)&arguments1);
-      // }
-      // int a3 = connecte(AIRPORT3);
-      // cout<<"2 : "<<a3<<endl;
-      // if(a3 > 0 ){
-          // struct args_nd arguments2;
-          // arguments.sock = a3;
-          // arguments.bc = &(*(Node*)bc);
-      //   pthread_t id;
-      //   pthread_create(&id,NULL,runListen,(void*)&arguments2);
-      // }
+      int a2 = connecte(AIRPORT2);
+      cout<<"1 : "<<a2<<endl;
+      if(a2 > 0) {
+      struct args_nd arguments1;
+      arguments1.sock = a2;
+      arguments1.choix = 2;
+      arguments1.whoami =1;
+        pthread_t id;
+        pthread_create(&id,NULL,runListen,(void*)&arguments1);
+      }
+      int a3 = connecte(AIRPORT3);
+      cout<<"2 : "<<a3<<endl;
+      if(a3 > 0 ){
+          struct args_nd arguments2;
+          arguments2.sock = a3;
+          arguments2.choix = 3;
+          arguments2.whoami =1;
+        pthread_t id;
+        pthread_create(&id,NULL,runListen,(void*)&arguments2);
+      }
       int blockc = connecte(BLOCKCHAIN);
       cout<<"1 : "<<blockc<<";"<<endl;
       if(blockc > 0){
         struct args_nd arguments3;
         arguments3.sock = blockc;
         arguments3.choix = 4;
+        arguments3.whoami =1;
         pthread_t id;
         pthread_create(&id,NULL,runListen,(void*)&arguments3);
       }
@@ -101,7 +105,6 @@ void* runNode1(void* vide){
       sleep(1);
     while(1){
       int new_sock;
-      cout<<"--------------------------\n";
 
       if ((new_sock = accept(Sock_server, (struct sockaddr *)&address,
                         (socklen_t*)&addrlen))<0)
@@ -109,20 +112,24 @@ void* runNode1(void* vide){
          perror("accept");
          exit(EXIT_FAILURE);
      } else {
-       cout<<"TEST APRES ACCEPT"<<endl;
-       airport1->getSocket().push_back(new_sock);
-       cout<<"RUNNODE TEST 1"<<endl;
+       cout<<"----------------EZ----------\n";
+       // cout<<"TEST APRES ACCEPT"<<endl;
+       airport1->addingSocket(new_sock);
+       // cout<<"RUNNODE TEST 1"<<endl;
        pthread_t threadid;
-       cout<<"RUNNODE TEST 2"<<endl;
-       airport1->getIdThread().push_back(threadid);
-       cout<<"RUNNODE TEST 3"<<endl;
+       // cout<<"RUNNODE TEST 2"<<endl;
+       // cout<<"--------------------------------\nVALUE : "<<airport1->getSizeThread()<<endl;
+       airport1->addingThread(threadid);
+       // cout<<"--------------------------------\nVALUE : "<<airport1->getSizeThread()<<endl;
+       // cout<<"RUNNODE TEST 3"<<endl;
        struct args_nd arguments;
-       cout<<"RUNNING TEST 4"<<endl;
+       // cout<<"RUNNING TEST 4"<<endl;
        arguments.sock = new_sock;
        arguments.choix = 1;
-       cout<<"TEEEEST : "<<airport1->getIdThread().size()<<endl;
-       pthread_create(&airport1->getIdThread().at((airport1->getIdThread().size())-1),NULL,runListen,(void*)&arguments);
-       cout<<"RUNNING TEST 5"<<endl;
+       arguments.whoami =1;
+       // cout<<"RUNNODE SIZE :------------- "<<airport1->getSizeThread()<<endl;
+       pthread_create(airport1->getThreadAt((airport1->getSizeThread()-1)),NULL,runListen,(void*)&arguments);
+       // cout<<"RUNNING TEST 5"<<endl;
      }
     }
   }
@@ -163,122 +170,171 @@ void* runNode2(void* vide){
           perror("listen");
           exit(EXIT_FAILURE);
       }
-
-
-      cout << "TEST NODE 2"<<endl;
+      // cout << "TEST NODE 1"<<endl;
       int a2 = connecte(AIRPORT1);
-      cout<<"2  : " <<a2 << endl;
+      cout<<"1 : "<<a2<<endl;
       if(a2 > 0) {
+      struct args_nd arguments1;
+      arguments1.sock = a2;
+      arguments1.choix = 1;
+      arguments1.whoami =2;
         pthread_t id;
-        pthread_create(&id,NULL,runListen,(void*)&a2);
+        pthread_create(&id,NULL,runListen,(void*)&arguments1);
       }
       int a3 = connecte(AIRPORT3);
-      cout<<"2  : " <<a3 << endl;
+      cout<<"2 : "<<a3<<endl;
       if(a3 > 0 ){
+          struct args_nd arguments2;
+          arguments2.sock = a3;
+          arguments2.choix = 3;
+          arguments2.whoami =2;
         pthread_t id;
-        pthread_create(&id,NULL,runListen,(void*)&a3);
+        pthread_create(&id,NULL,runListen,(void*)&arguments2);
       }
       int blockc = connecte(BLOCKCHAIN);
-      cout << "2  : "<<blockc << endl;
+      cout<<"1 : "<<blockc<<";"<<endl;
       if(blockc > 0){
+        struct args_nd arguments3;
+        arguments3.sock = blockc;
+        arguments3.choix = 4;
+        arguments3.whoami =2;
         pthread_t id;
-        pthread_create(&id,NULL,runListen,(void*)&blockc);
+        pthread_create(&id,NULL,runListen,(void*)&arguments3);
       }
-      cout<<"END CONNECT 2 "<<endl;
+
+      // cout<<"END CONNECT 1 "<<endl;
       sleep(1);
     while(1){
       int new_sock;
+
       if ((new_sock = accept(Sock_server, (struct sockaddr *)&address,
                         (socklen_t*)&addrlen))<0)
      {
          perror("accept");
          exit(EXIT_FAILURE);
+     } else {
+       cout<<"----------------EZ----------\n";
+       // cout<<"TEST APRES ACCEPT"<<endl;
+       airport2->addingSocket(new_sock);
+       // cout<<"RUNNODE TEST 1"<<endl;
+       pthread_t threadid;
+       // cout<<"RUNNODE TEST 2"<<endl;
+       // cout<<"--------------------------------\nVALUE : "<<airport1->getSizeThread()<<endl;
+       airport2->addingThread(threadid);
+       // cout<<"--------------------------------\nVALUE : "<<airport1->getSizeThread()<<endl;
+       // cout<<"RUNNODE TEST 3"<<endl;
+       struct args_nd arguments;
+       // cout<<"RUNNING TEST 4"<<endl;
+       arguments.sock = new_sock;
+       arguments.choix = 2;
+       arguments.whoami =2;
+       // cout<<"RUNNODE SIZE :------------- "<<airport1->getSizeThread()<<endl;
+       pthread_create(airport2->getThreadAt((airport2->getSizeThread()-1)),NULL,runListen,(void*)&arguments);
+       // cout<<"RUNNING TEST 5"<<endl;
      }
-      airport2->getSocket().push_back(new_sock);
-      pthread_t threadid;
-      airport2->getIdThread().push_back(threadid);
-      struct args_nd arguments;
-      arguments.sock = new_sock;
-      arguments.choix = 2;
-      pthread_create(&airport2->getIdThread().at(airport2->getSocket().size()-1),NULL,runListen,(void*)&arguments);
     }
   }
 }
 void* runNode3(void* vide){
-  // long int decompte = 5;
-  // while(true){
-  //   long int decompte = 0;
-  //   int Sock_server;
-  //   struct sockaddr_in address;
-  //   int opt = 1;
-  //   int addrlen = sizeof(address);
-  //   // Creating socket file descriptor
-  //   if ((Sock_server = socket(AF_INET, SOCK_STREAM, 0)) == 0)
-  //   {
-  //       perror("socket failed");
-  //       exit(EXIT_FAILURE);
-  //   }
-  //   // Forcefully attaching socket to the port 8080
-  //    if (setsockopt(Sock_server, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
-  //                                                  &opt, sizeof(opt)))
-  //    {
-  //        perror("setsockopt");
-  //        exit(EXIT_FAILURE);
-  //    }
-  //    address.sin_family = AF_INET;
-  //    address.sin_addr.s_addr = INADDR_ANY;
-  //    address.sin_port = htons(AIRPORT3);
-  //    // Forcefully attaching socket to the port 8080
-  //     if (bind(Sock_server, (struct sockaddr *)&address,
-  //                                  sizeof(address))<0)
-  //     {
-  //         perror("bind failed");
-  //         exit(EXIT_FAILURE);
-  //     }
-  //     if (listen(Sock_server, 10) < 0)
-  //     {
-  //         perror("listen");
-  //         exit(EXIT_FAILURE);
-  //     }
-  //     cout << "TEST NODE 3"<<endl;
-  //
-  //     int a2 = connecte(AIRPORT1);
-  //     cout << "3  : "<<a2 << endl;
-  //     if(a2 > 0) {
-  //       pthread_t id;
-  //       pthread_create(&id,NULL,runListen,(void*)&a2);
-  //     }
-  //     int a3 = connecte(AIRPORT2);
-  //     cout <<"3  : "<< a3 << endl;
-  //     if(a3 > 0 ){
-  //       pthread_t id;
-  //       pthread_create(&id,NULL,runListen,(void*)&a3);
-  //     }
-  //     int blockc = connecte(BLOCKCHAIN);
-  //     cout << "3  : "<<blockc << endl;
-  //     if(blockc > 0){
-  //       pthread_t id;
-  //       pthread_create(&id,NULL,runListen,(void*)&blockc);
-  //     }
-  //     cout<<"END CONNECT 2 "<<endl;
-  //     sleep(1);
-  //   while(1){
-  //     int new_sock;
-  //     if ((new_sock = accept(Sock_server, (struct sockaddr *)&address,
-  //                       (socklen_t*)&addrlen))<0)
-  //    {
-  //        perror("accept");
-  //        exit(EXIT_FAILURE);
-  //    }
-  //     airport3->getSocket().push_back(new_sock);
-  //     pthread_t threadid;
-  //     airport3->getIdThread().push_back(threadid);
-  //     struct args_nd arguments;
-  //     arguments.sock = new_sock;
-  //     arguments.choix = 3;
-  //     pthread_create(&airport3->getIdThread().at(airport3->getSocket().size()-1),NULL,runListen,(void*)&arguments);
-  //   }
-  // }
+  long int decompte = 5;
+  while(true){
+    long int decompte = 0;
+    int Sock_server;
+    struct sockaddr_in address;
+    int opt = 1;
+    int addrlen = sizeof(address);
+    // Creating socket file descriptor
+    if ((Sock_server = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+    {
+        perror("socket failed");
+        exit(EXIT_FAILURE);
+    }
+    // Forcefully attaching socket to the port 8080
+     if (setsockopt(Sock_server, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
+                                                   &opt, sizeof(opt)))
+     {
+         perror("setsockopt");
+         exit(EXIT_FAILURE);
+     }
+     address.sin_family = AF_INET;
+     address.sin_addr.s_addr = INADDR_ANY;
+     address.sin_port = htons(AIRPORT2);
+     // Forcefully attaching socket to the port 8080
+      if (bind(Sock_server, (struct sockaddr *)&address,
+                                   sizeof(address))<0)
+      {
+          perror("bind failed");
+          exit(EXIT_FAILURE);
+      }
+      if (listen(Sock_server, 10) < 0)
+      {
+          perror("listen");
+          exit(EXIT_FAILURE);
+      }
+      // cout << "TEST NODE 1"<<endl;
+      int a2 = connecte(AIRPORT1);
+      cout<<"1 : "<<a2<<endl;
+      if(a2 > 0) {
+      struct args_nd arguments1;
+      arguments1.sock = a2;
+      arguments1.choix = 1;
+      arguments1.whoami =3;
+        pthread_t id;
+        pthread_create(&id,NULL,runListen,(void*)&arguments1);
+      }
+      int a3 = connecte(AIRPORT2);
+      cout<<"2 : "<<a3<<endl;
+      if(a3 > 0 ){
+          struct args_nd arguments2;
+          arguments2.sock = a3;
+          arguments2.choix = 2;
+          arguments2.whoami =3;
+        pthread_t id;
+        pthread_create(&id,NULL,runListen,(void*)&arguments2);
+      }
+      int blockc = connecte(BLOCKCHAIN);
+      cout<<"1 : "<<blockc<<";"<<endl;
+      if(blockc > 0){
+        struct args_nd arguments3;
+        arguments3.sock = blockc;
+        arguments3.choix = 4;
+        arguments3.whoami =3;
+        pthread_t id;
+        pthread_create(&id,NULL,runListen,(void*)&arguments3);
+      }
+
+      // cout<<"END CONNECT 1 "<<endl;
+      sleep(1);
+    while(1){
+      int new_sock;
+
+      if ((new_sock = accept(Sock_server, (struct sockaddr *)&address,
+                        (socklen_t*)&addrlen))<0)
+     {
+         perror("accept");
+         exit(EXIT_FAILURE);
+     } else {
+       cout<<"----------------EZ----------\n";
+       // cout<<"TEST APRES ACCEPT"<<endl;
+       airport3->addingSocket(new_sock);
+       // cout<<"RUNNODE TEST 1"<<endl;
+       pthread_t threadid;
+       // cout<<"RUNNODE TEST 2"<<endl;
+       // cout<<"--------------------------------\nVALUE : "<<airport1->getSizeThread()<<endl;
+       airport3->addingThread(threadid);
+       // cout<<"--------------------------------\nVALUE : "<<airport1->getSizeThread()<<endl;
+       // cout<<"RUNNODE TEST 3"<<endl;
+       struct args_nd arguments;
+       // cout<<"RUNNING TEST 4"<<endl;
+       arguments.sock = new_sock;
+       arguments.choix = 3;
+       arguments.whoami =3;
+       // cout<<"RUNNODE SIZE :------------- "<<airport1->getSizeThread()<<endl;
+       pthread_create(airport3->getThreadAt((airport3->getSizeThread()-1)),NULL,runListen,(void*)&arguments);
+       // cout<<"RUNNING TEST 5"<<endl;
+     }
+    }
+  }
 }
 
 void* runListen(void* args){
@@ -288,57 +344,112 @@ void* runListen(void* args){
   struct args_nd test = *(struct args_nd*)args;
   Node* aux = NULL;
   Blockchain* aux2 = NULL;
-  switch(test.choix){
-    case 1:
-      aux = airport1;
-      break;
-    case 2:
-      aux = airport2;
-      break;
-    case 3:
-      aux = airport3;
-      break;
-    case 4:
-      aux2 = bc;
-  }
+  // switch(test.choix){
+  //   case 1:
+  //     aux = new Node(*airport1);
+  //     break;
+  //   case 2:
+  //     aux = new Node(*airport2);
+  //     break;
+  //   case 3:
+  //     aux = new Node(*airport3);
+  //     break;
+  //   case 4:
+  //     aux2 = bc;
+  // }
   if(aux2 == NULL) {
     cout <<"RUN LISTEN : struct : "<<test.sock<<";"<<endl;
-    cout<<"RUN LISTEN : TIME "<<aux->getTime()<<endl;
+    cout<<"RUN LISTEN : TIME "<<airport1->getTime()<<endl;
     cout<<"RUN LISTEN : debut"<<endl;
   }
   int tm = 0;
   int ds = 5;
   clock_t start = clock();
   while(true){
-    if(aux2 == NULL){
-      int randomnumber = (rand()%(10000-0))+0;
-      cout<<"RUN LISTEN : apres ranom"<<endl;
-      cout<<"RUN LISTEN : TIME "<<(aux->getTime())<<endl;
-      if(aux->getTime() >= 5 ){
-        cout<<"RUN LISTEN : avant str to char"<<endl;
-        const char* msg = to_string(randomnumber).c_str();
-        cout<<"RUN LISTEN : apres str to char"<<endl;
-        send(test.sock,msg,sizeof(msg),0);
-        cout<<"RUN LISTEN : apres envoie"<<endl;
-        decompte+=5;
-      }
-      cout<<"RUN LISTEN : fin"<<endl;
-    } else {
-      cout<<"RUNLISTEN TEST 1"<<endl;
-      cout<<"RUNLISTEN TEST 2"<<endl;
+
       if(((clock() - start ) / (double) CLOCKS_PER_SEC) > ds ) {
-        cout<<"RUNLISTEN TEST 3"<<endl;
+        cout<<"RUNLISTEN TEST 3 -----------------------------\n------------------------------\n-----------------------"<<endl;
         ds+=5;
         tm+=5;
         int randomnumber = (rand()%(10000-0))+0;
         const char* msg = to_string(randomnumber).c_str();
+        switch(test.whoami){
+          case 1:
+            switch(test.choix){
+              case 1:
+                cout<<"airport 1 send : "<<msg<<" to airport 1"<<endl;
+
+                break;
+              case 2:
+                cout<<"airport 1 send : "<<msg<<" to airport 2"<<endl;
+                break;
+              case 3:
+                cout<<"airport 1 send : "<<msg<<" to airport 3"<<endl;
+                break;
+              case 4:
+                cout<<"airport 1 send : "<<msg<<" to blockchain"<<endl;
+                break;
+            }
+            break;
+          case 2:
+          switch(test.choix){
+            case 1:
+              cout<<"airport 2 send : "<<msg<<" to airport 1"<<endl;
+
+              break;
+            case 2:
+              cout<<"airport 2 send : "<<msg<<" to airport 2"<<endl;
+              break;
+            case 3:
+              cout<<"airport 2 send : "<<msg<<" to airport 3"<<endl;
+              break;
+            case 4:
+              cout<<"airport 2 send : "<<msg<<" to blockchain"<<endl;
+              break;
+          }
+            break;
+          case 3:
+          switch(test.choix){
+            case 1:
+              cout<<"airport 3 send : "<<msg<<" to airport 1"<<endl;
+
+              break;
+            case 2:
+              cout<<"airport 3 send : "<<msg<<" to airport 2"<<endl;
+              break;
+            case 3:
+              cout<<"airport 3 send : "<<msg<<" to airport 3"<<endl;
+              break;
+            case 4:
+              cout<<"airport 3 send : "<<msg<<" to blockchain"<<endl;
+              break;
+          }
+            break;
+          case 4:
+          switch(test.choix){
+            case 1:
+              cout<<"blockchain send : "<<msg<<" to airport 1"<<endl;
+
+              break;
+            case 2:
+              cout<<"blockchain send : "<<msg<<" to airport 2"<<endl;
+              break;
+            case 3:
+              cout<<"blockchain send : "<<msg<<" to airport 3"<<endl;
+              break;
+            case 4:
+              cout<<"blockchain send : "<<msg<<" to blockchain"<<endl;
+              break;
+          }
+            break;
+        }
         send(test.sock,msg,sizeof(msg),0);
         start = clock();
       }
-      cout<<"RUNLISTEN TEST 4"<<endl;
+      // cout<<"RUNLISTEN TEST 4"<<endl;
 
 
-    }
+
   }
 }
 
@@ -410,15 +521,24 @@ void* runBlockchain(void* vide){
     while(1){
       int new_sock;
       if ((new_sock = accept(Sock_server, (struct sockaddr *)&address,
-                        (socklen_t*)&addrlen))<0)
+                        (socklen_t*)&addrlen))<=0)
      {
          perror("accept");
          exit(EXIT_FAILURE);
+     } else {
+       // cout<<"runblockchain AVANT PUSH"<<endl;
+       bc->addingSocket(new_sock);
+       // cout<<"runblockchain apres push"<<endl;
+       pthread_t threadid;
+       // cout<<"runblockchain avant push 2"<<endl;
+       bc->addingThread(threadid);
+       // cout<<"runblockchain avant create"<<endl;
+       // cout<<"runblockchain SIZE : "<<airport1->getSizeSocket()<<endl;
+
+       pthread_create(bc->getThreadAt((bc->getSizeThread())-1),NULL,runClient,(void*)&new_sock);
+       // cout<<"runblockchain apres create"<<endl;
+
      }
-      bc->getSocket().push_back(new_sock);
-      pthread_t threadid;
-      bc->getIdThread().push_back(threadid);
-      pthread_create(&bc->getIdThread().at(bc->getSocket().size()-1),NULL,runClient,(void*)&new_sock);
     }
   }
 }
@@ -458,20 +578,20 @@ int connecte(int port){
 
 void * runClient(void* args){
   cout<<"RUN CLIENT : entrée"<<endl;
-  int nb;
+  int nb=0;
   char buffer[1024] = {0};
   cout<<"RUN CLIENT : avant struct"<<endl;
   cout<<"RUN CLIENT : struct  : "<<*(int*)args<<endl;
   cout<<"runClient : apres struct  "<<endl;
   while(1){
-    cout <<"run Client : avant read"<<endl;
+    // cout <<"run Client : avant read"<<endl;
     nb = read( *(int*)args , buffer, 1024);
-    cout<<"RUN CLIENT : apres reead"<<endl;
-    if(nb == 0){
+    // cout<<"RUN CLIENT : apres reead"<<endl;
+    if(nb <= 0){
       printf("buffer containt nothing\n");
     } else {
       printf("message : %s\n",buffer);
     }
-    cout<<"RUN CLIENT : fin"<<endl;
+    // cout<<"RUN CLIENT : fin"<<endl;
   }
 }

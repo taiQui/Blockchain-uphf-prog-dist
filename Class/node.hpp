@@ -15,13 +15,14 @@ class Node {
 
 private:
   string _id;
-  clock_t *timer;
+  clock_t timer;
   pthread_t idth;
   vector<int> _socket;
-  vector<pthread_t> _idt;
 public:
+  vector<pthread_t> _idt;
   Node(string id,vector<int> socket, vector<pthread_t> idt);
   Node(string);
+  Node(const Node&);
   ~Node();
 
   string getid(); //getter
@@ -31,8 +32,13 @@ public:
   vector<int> getSocket();
   vector<pthread_t> getIdThread();
   int getSocketByIndex(int);
-
+  void addingThread(pthread_t);
   void *run();
+  int getSizeSocket();
+  int getSocketAt(int);
+  int getSizeThread();
+  pthread_t* getThreadAt(int );
+  void addingSocket(int);
 
 };
 

@@ -30,8 +30,12 @@ public:
   void removeBlock(string);
   Block readBlock(int);
   bool checkIndex(int);
-
-
+  void addingThread(pthread_t);
+  void addingSocket(int);
+  int getSizeSocket();
+  int getSocketAt(int);
+  pthread_t* getThreadAt(int);
+  int getSizeThread();
 };
 
 
