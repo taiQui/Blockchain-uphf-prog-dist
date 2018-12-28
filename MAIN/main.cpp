@@ -444,6 +444,10 @@ void* runListen(void* args){
             break;
         }
         send(test.sock,msg,sizeof(msg),0);
+        int nb = read(test.sock,buffer,sizeof(buffer));
+        if(nb > 0){
+          cout<<"RECUS : "<<buffer<<endl;
+        }
         start = clock();
       }
       // cout<<"RUNLISTEN TEST 4"<<endl;
@@ -591,6 +595,8 @@ void * runClient(void* args){
       printf("buffer containt nothing\n");
     } else {
       printf("message : %s\n",buffer);
+      char* rep = "RECEIVE OK! SEND NUDE !";
+      send(*(int*)args,rep,strlen(rep),0);
     }
     // cout<<"RUN CLIENT : fin"<<endl;
   }
