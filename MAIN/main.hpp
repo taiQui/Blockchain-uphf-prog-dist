@@ -9,6 +9,8 @@
 #include "../Class/node.hpp"
 #include "../Class/blockchain.hpp"
 #include "headers.hpp"
+#include <chrono>
+#include <thread>
 
 using namespace std;
 

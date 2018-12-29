@@ -1,7 +1,7 @@
 #include "blockchain.hpp"
 
 Blockchain::Blockchain(){
-
+  this->canI = true;
 }
 
 Blockchain::Blockchain(vector<int> socket, vector<pthread_t> id, int length){
@@ -9,6 +9,7 @@ Blockchain::Blockchain(vector<int> socket, vector<pthread_t> id, int length){
   this->_socket = socket;
   this->_id = id;
   this->_length = length;
+  this->canI = true;
 }
 
 Blockchain::~Blockchain(){
@@ -17,6 +18,10 @@ Blockchain::~Blockchain(){
 
 void Blockchain::addBlock(Block* block){
   this->_bl->addBlock(block);
+}
+
+int Blockchain::getSizeBlocklist(){
+  return this->_bl->getLength();
 }
 
 void Blockchain::removeBlock(string hash){
@@ -65,6 +70,68 @@ int Blockchain::getlength(){
 
 void Blockchain::setlength(int size){
   this->_length = size;
+}
+
+void Blockchain::setBool(bool bol){
+  this->canI = bol;
+}
+
+bool Blockchain::getBool(){
+  return this->canI;
+}
+
+int Blockchain::getSizeSockTo(){
+  return this->socktorespond.size();
+}
+
+void Blockchain::clear(){
+  this->calculatedValue.clear();
+  this->socktorespond.clear();
+  this->canI = true;
+}
+
+void Blockchain::response(int max){
+  char *msg = "IWANTYOU";
+  Block* bl = nullptr;
+  send(this->getSocktorespond(max),msg,strlen(msg),0);
+  int nb = read(this->getSocktorespond(max),bl,sizeof(bl));
+  if(nb > 0){
+    if(bl == nullptr){
+      cout<<"NULL PTR C NUL SA MERE"<<endl;
+    }
+    this->addBlock(bl);
+    this->calculatedValue.clear();
+    this->socktorespond.clear();
+    this->canI = true;
+  }
+}
+
+int Blockchain::getSizeCalc(){
+  return this->calculatedValue.size();
+}
+
+void Blockchain::addtocalcvalue(string add){
+  this->calculatedValue.push_back(add);
+}
+
+string Blockchain::getCalcvalue(int index){
+  return this->calculatedValue.at(index);
+}
+
+int Blockchain::getSocktorespond(int index){
+  return this->socktorespond.at(index);
+}
+
+void Blockchain::addtosocktorespond(int sock){
+  this->socktorespond.push_back(sock);
+}
+
+vector<string> Blockchain::getcalcvalue(){
+  return this->calculatedValue;
+}
+
+vector<int> Blockchain::getsocktorespond(){
+  return this->socktorespond;
 }
 
 int Blockchain::getSocketByIndex(int index){

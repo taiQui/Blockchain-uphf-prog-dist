@@ -3,6 +3,7 @@
 
 BlockList::BlockList(){
   this->_currentBlock = NULL;
+  this->_length = 0;
 }
 
 BlockList::~BlockList(){
@@ -15,6 +16,10 @@ BlockList::~BlockList(){
 
 Block BlockList::getBlock(){
   return *this->_currentBlock;
+}
+
+int BlockList::getLength(){
+  return this->_length;
 }
 
 void BlockList::setFirstBlock(Block* block){
@@ -38,8 +43,11 @@ bool BlockList::checkIndex(int index){
 }
 
 void BlockList::addBlock(Block* nextblock){
-  nextblock->setInferiorBlock(this->_currentBlock);
-  this->_currentBlock = nextblock;
+
+    nextblock->setInferiorBlock(this->_currentBlock);
+    this->_currentBlock = nextblock;
+    this->_length +=1;
+
 }
 
 int BlockList::removeBlock(string hash){
@@ -64,6 +72,7 @@ int BlockList::removeBlock(string hash){
       delete this->_currentBlock;
       this->_currentBlock = supp;
     }
+    this->_length-=1;
     return(i);
   } else {
     return(-1);

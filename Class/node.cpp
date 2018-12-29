@@ -6,6 +6,7 @@ Node::Node(string id,vector<int> socket, vector<pthread_t> idt){
   this->_idt = idt;
   this->_socket = socket;
   this->timer = clock();
+  this->block = new Block();
 }
 
 Node::Node(const Node& node){
@@ -14,6 +15,11 @@ Node::Node(const Node& node){
   this->idth = node.idth;
   this->_socket = node._socket;
   this->_idt = node._idt;
+  this->block= node.block;
+}
+
+Block* Node::getblock(){
+  return this->block;
 }
 
 Node::Node(string id){

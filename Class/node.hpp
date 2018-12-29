@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <cstdlib>
+#include "block.hpp"
 #include <vector>
 using namespace std;
 
@@ -18,6 +19,7 @@ private:
   clock_t timer;
   pthread_t idth;
   vector<int> _socket;
+  Block *block;
 public:
   vector<pthread_t> _idt;
   Node(string id,vector<int> socket, vector<pthread_t> idt);
@@ -29,6 +31,7 @@ public:
   void setid(string);
   float getCalculatedValue();
   double getTime();
+  Block* getblock();
   vector<int> getSocket();
   vector<pthread_t> getIdThread();
   int getSocketByIndex(int);
