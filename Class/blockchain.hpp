@@ -52,6 +52,7 @@ public:
   pthread_t* getThreadAt(int);
   int getSizeThread();
   void response(int);
+  void responsevoid(int);
 };
 
 

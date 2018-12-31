@@ -2,6 +2,7 @@
 
 Blockchain::Blockchain(){
   this->canI = true;
+  this->_bl = new BlockList();
 }
 
 Blockchain::Blockchain(vector<int> socket, vector<pthread_t> id, int length){
@@ -87,22 +88,51 @@ int Blockchain::getSizeSockTo(){
 void Blockchain::clear(){
   this->calculatedValue.clear();
   this->socktorespond.clear();
-  this->canI = true;
+  // cout<<"2 VECTOR IS CLEAR"<<endl;
+}
+
+
+void Blockchain::responsevoid(int sock){
+  char *msg = "sexe";
+  std::this_thread::sleep_for(std::chrono::nanoseconds(5));
+  std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(1));
+  int nb;
+
+  while((nb= send(sock,msg,strlen(msg),0))<= 0){};
+
+  fflush(stdout);
+  char hello[1024];
+  nb= read(sock,hello,sizeof(hello));
+// nb = read(this->getSocktorespond(max),bl,sizeof(bl));
+  if(nb > 0){
+
+    // cout<<"EZZ MAMENE : "<<this->_length<<endl;
+    while((nb = send(sock,"sex",3,0))<=0){};
+  }
 }
 
 void Blockchain::response(int max){
   char *msg = "IWANTYOU";
   Block* bl = nullptr;
-  send(this->getSocktorespond(max),msg,strlen(msg),0);
-  int nb = read(this->getSocktorespond(max),bl,sizeof(bl));
+  std::this_thread::sleep_for(std::chrono::nanoseconds(5));
+  std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(1));
+  int nb;
+  while((nb = send(this->getSocktorespond(max),msg,strlen(msg),0))<=0){};
+  fflush(stdout);
+  nb = read(this->getSocktorespond(max),bl,sizeof(bl));
+// nb = read(this->getSocktorespond(max),bl,sizeof(bl));
   if(nb > 0){
     if(bl == nullptr){
-      cout<<"NULL PTR C NUL SA MERE"<<endl;
+      // cout<<"NULL PTR C NUL SA MERE"<<endl;
     }
     this->addBlock(bl);
     this->calculatedValue.clear();
     this->socktorespond.clear();
     this->canI = true;
+    cout<<"ADDING BLOCK TO BLOCKCHAIN size : "<<this->_length<<endl;
+    send(this->getSocktorespond(max),"sex",3,0);
+  } else {
+    cout<<"Failed to add block  "<<endl;
   }
 }
 
