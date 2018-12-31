@@ -93,7 +93,7 @@ void Blockchain::clear(){
 
 
 void Blockchain::responsevoid(int sock){
-  char *msg = "sexe";
+  char *msg = "void";
   std::this_thread::sleep_for(std::chrono::nanoseconds(5));
   std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(1));
   int nb;
@@ -106,8 +106,7 @@ void Blockchain::responsevoid(int sock){
 // nb = read(this->getSocktorespond(max),bl,sizeof(bl));
   if(nb > 0){
 
-    // cout<<"EZZ MAMENE : "<<this->_length<<endl;
-    while((nb = send(sock,"sex",3,0))<=0){};
+    while((nb = send(sock,"void",4,0))<=0){};
   }
 }
 
@@ -123,7 +122,7 @@ void Blockchain::response(int max){
 // nb = read(this->getSocktorespond(max),bl,sizeof(bl));
   if(nb > 0){
     if(bl == nullptr){
-      // cout<<"NULL PTR C NUL SA MERE"<<endl;
+      // cout<<"NULL PTR "<<endl;
     }
     this->addBlock(bl);
     this->calculatedValue.clear();

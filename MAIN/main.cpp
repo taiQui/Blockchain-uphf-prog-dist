@@ -508,7 +508,7 @@ void* runListen(void* args){
             read(test.sock,buffer,strlen(buffer));
           }
         } else {
-          // cout<<"J'AI RIEN LUS BATARD"<<endl;
+          // cout<<"J'AI RIEN LUS "<<endl;
         }
         start = clock();
       // }
@@ -720,7 +720,7 @@ void * runClient(void* args){
       }
       if(lol){
         string splitted = split(s,'-').at(0);
-        // cout<<"TAAAIIIIILLLLLLLLE  EEEE : "<<bc->getSizeCalc()<<endl;
+        // cout<<"Taillee : "<<bc->getSizeCalc()<<endl;
         if(!ispresent(bc->getcalcvalue(),splitted)){
           // cout<<"TEST 1"<<endl;
           if(bc->getBool() == true){
@@ -733,9 +733,6 @@ void * runClient(void* args){
           bc->addtosocktorespond(*(int*)args);
           bc->setBool(true);
         }
-        // cerr<<"RHELLO MAMEN"<<endl;
-        // cout<<"TAIIIIIIIIIIIIIIILLLLLLLLEEEEEE : "<<bc->getSizeSockTo()<<endl;
-        // cout<<"AIEAIEAIE : "<<getmax(bc->getcalcvalue())<<endl;
         if(bc->getSizeSockTo()>=3){
           std::this_thread::sleep_for(std::chrono::nanoseconds(5));
           std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(1));
@@ -752,7 +749,7 @@ void * runClient(void* args){
           }
         } else {
           const char* rep = "RECEIVE_OK!";
-          // cout<<"REPOOOOOONDS GROS FDP"<<endl;
+          // cout<<"REPOOOOOONDS"<<endl;
           std::this_thread::sleep_for(std::chrono::nanoseconds(5));
           std::this_thread::sleep_until(std::chrono::system_clock::now() + std::chrono::seconds(1));
           // send(*(int*)args,rep,strlen(rep),0);
